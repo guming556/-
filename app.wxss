@@ -1,0 +1,78 @@
+page{
+  height: 100%;
+}
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+
+/**默认样式重置**/
+button::after{
+  border: none;
+}
+::-webkit-scrollbar{  
+  height: 0;
+  width: 0;
+  color: transparent;
+}
+
+/*公共样式*/
+.ctr-box{
+  width: 100%;
+  height: 160rpx;
+  position: fixed;
+  z-index: 99;
+  bottom: 15rpx;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.to-home{
+  width: 180rpx;
+  height: 110rpx;
+  position: fixed;
+  bottom: 35rpx;
+  left: 0;
+}
+.to-home image{
+  width: 100%;
+  height: 100%;
+}
+.share{
+  width: 160rpx;
+  height: 160rpx;
+  position: fixed;
+  right: 0;
+  bottom: 10rpx;
+  z-index: 99;
+}
+.share image{
+  width: 100%;
+  height: 100%;
+}
+.share .share-btn,.to-home text{
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: bold;
+  background: transparent;
+}
+.share .share-btn{
+  width: 120rpx;
+  line-height: 120rpx;
+  left: 20rpx;
+  top: 20rpx;
+}
+.to-home text{
+  width: 160rpx;
+  line-height: 70rpx;
+  top:20rpx;
+  left: 0;
+}

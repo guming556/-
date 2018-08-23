@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/weekly/weekly",
+    "pages/atlas/atlas",
+    "pages/daySign/daySign",
+    "pages/infoDetail/infoDetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "蔡徐坤IKUN",
+    "navigationBarTextStyle": "black"
+  }
+}

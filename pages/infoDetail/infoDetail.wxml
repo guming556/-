@@ -1,0 +1,40 @@
+<import src="../../utils/wxParse/wxParse.wxml"/>
+<view class="info-detail-container">
+  <view class='detail-tit'>
+    <view class='icon'><image src="{{infoDetail.imageUrl}}"></image></view>
+    <view class='source' style="color:{{infoDetail.color}}">来自{{infoDetail.fromPlatform}}<text wx:if="{{infoDetail.fromUserName}}">@</text>{{infoDetail.fromUserName}}</view>
+  </view>
+
+  <view class='detail-text'>{{infoDetail.title}}</view>
+
+  <view class='detail-description'>    
+    <view wx:if="{{infoDetail.fromUserName}}">作者：{{infoDetail.fromUserName}}</view>
+    <view wx:if="{{infoDetail.fromUrl}}">链接：{{infoDetail.fromUrl}}</view>
+    <view wx:if="{{infoDetail.fromPlatform}}">来源：{{infoDetail.fromPlatform}}</view>
+  </view>
+
+  <view class='detail-content' bindtap='consoleDiv'>
+    <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
+  </view>
+
+  <view class='preview-box' wx:if="{{previewBool}}">
+    <view class='preview-tit'>
+      <view class='icon'></view>
+      <text></text>
+    </view>
+    <view class='preview-description'></view>
+    <view wx:for="{{5}}" wx:key="{{index}}" class='preview-text'></view>
+    <view class='preview-img'></view>
+  </view>
+
+
+  <view class='to-home' wx:if="{{toHomeBool}}">
+    <image src='../../images/homeback.png'></image>
+    <text bindtap='toHome'>回到主页</text>
+  </view>
+  <view class='share'>
+    <image src='../../images/share.png'></image>
+    <button open-type="share" class='share-btn'>分享</button>
+  </view>
+
+</view>

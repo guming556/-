@@ -1,0 +1,91 @@
+<view class='atlas-container'>
+  <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+    <view wx:for="{{tabList}}" wx:key="{{item}}" class="tab-item {{currentTab==index?'active':''}}" data-current="{{index}}" bindtap="swichNav">{{item.name}}</view>
+  </scroll-view>
+
+  <!-- <view hidden>
+    <image wx:for="{{list}}" wx:key="{{item.imageUrl}}" data-idx='{{index}}' src='{{item.imageUrl}}' bindload='loadImage'></image>
+  </view> -->
+
+  <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab">
+    <swiper-item wx:for="{{tabList}}" wx:key="{{item}}" wx:for-index="idx">
+      <scroll-view wx:if="{{sharedBool||idx==0}}"  scroll-y="true" class="scoll-h" bindscrolltolower="getNextPage">
+        <!-- <view class="img_box" wx:for="{{list}}" wx:key="{{item.imageUrl}}" style="top:{{item.top}}px;left:{{item.left}}px" 
+        data-id="{{item.id}}" bindtap='imgDetail'>
+          <image hidden="{{!item.loaded}}" src="{{item.imageUrl}}" mode="widthFix" lazy-load="true"></image>
+          <view class='new-mark' wx:if="{{item.newMark}}"><image src='../../images/img-new.png'></image></view>
+        </view>
+        <view class='load-item' wx:if="{{atlasNextBool}}" style='top:{{rightImgH}}px;right:16rpx;'></view>
+        <view class='load-item' wx:if="{{atlasNextBool}}" style='top:{{leftImgH}}px;left:16rpx;'></view>
+        <view class='no-more' wx:if="{{noMoreInfoBool}}" style='top:{{leftImgH>rightImgH?leftImgH:rightImgH}}px'>木有更多啦O!0</view> -->
+
+        <view class='img-left' wx:if="{{idx==currentTab}}">
+          <view class='img-box' hidden="{{atlasLoadBool}}"  wx:for="{{leftImgList}}" wx:key="{{index}}" 
+          style='height:{{item.height}}px'>
+            <image  hidden="{{atlasNextBool}}" mode="widthFix" src='{{item.imageUrl}}' bindload='loadImage' data-url='{{item.imageUrl}}' data-id='{{item.id}}' bindtap='imgDetail' ></image>
+            <!--<view class='new-mark' wx:if="{{item.newMark}}"><image src='../../images/img-new.png'></image></view> -->
+          </view>
+          <view wx:if="{{atlasLoadBool}}" wx:for="{{leftImgLoadNum}}" wx:key="{{index}}" class="{{index%2==0?'load-item1':'load-item2'}}"></view>
+        </view>
+
+        <view class='img-right' wx:if="{{idx==currentTab}}">
+          <view class='img-box' hidden="{{atlasLoadBool}}"  wx:for="{{rightImgList}}" wx:key="{{index}}" 
+          style='height:{{item.height}}px'>
+            <image hidden="{{atlasNextBool}}"  mode="widthFix" src='{{item.imageUrl}}' bindload='loadImage' data-url='{{item.imageUrl}}' data-id='{{item.id}}' bindtap='imgDetail' ></image>
+            <!-- <view class='new-mark' wx:if="{{item.newMark}}"><image src='../../images/img-new.png'></image></view> -->
+          </view>
+         <view wx:if="{{atlasLoadBool}}" wx:for="{{rightImgLoadNum}}" wx:key="{{index}}" class="{{index%2==0?'load-item2':'load-item1'}}"></view>
+        </view>
+
+        <view class='loading' wx:if="{{atlasNextBool}}"><image src='../../images/loading.png'></image></view>
+        <view class='no-more' wx:if="{{noMoreInfoBool}}">木有更多啦O!0</view>
+      </scroll-view> 
+
+      <scroll-view scroll-y class='atlas-load' wx:if="{{atlasLoadBool}}">
+        <view class='load-left'>
+          <view class='load-item1'></view>
+          <view class='load-item2'></view>
+          <view class='load-item1'></view>
+          <view class='load-item2'></view>
+        </view>
+        <view class='load-right'>
+          <view class='load-item2'></view>
+          <view class='load-item1'></view>
+          <view class="load-item2"></view>
+          <view class="load-item1"></view>
+        </view>
+      </scroll-view>
+
+      <view class='atlas-default' wx:if="{{!sharedBool&&idx!=0}}">
+        <view class='atlas-icon'>
+          <image mode="widthFix" src='../../images/atlas-default.png'></image>
+        </view>
+        <view class='atlas-share'>
+          <image src='../../images/save-btn.png'></image>
+          <button open-type="share">分享到群解锁图集</button>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <view class='cover-box' wx:if="{{imgDetailBool}}">
+    <view class='img-box'  bindtap='closeImgDetail'>
+      <swiper bindchange="switchImgTab" current='{{imgCurrentTab}}'>
+        <swiper-item wx:for="{{imgLoadList}}" wx:key="{{item}}">
+          <view class='img-index'>{{imgCurrentTab+1}}/{{total}}</view>
+          <view class='img-detail'><image mode="widthFix" src='{{item.imageUrl}}' catchtap=''></image></view>
+          <view class='img-source' wx:if="{{item.source}}">图片来源:{{item.source}}</view>
+        </swiper-item>
+      </swiper>
+    </view>
+  </view>
+
+  <view class='to-home' wx:if="{{toHomeBool}}">
+    <image src='../../images/homeback.png'></image>
+    <text bindtap='toHome'>回到主页</text>
+  </view>
+  <view class='share' wx:if="{{sharedBool||currentTab==0}}">
+    <image src='../../images/share.png'></image>
+    <button open-type="share" class='share-btn'>分享</button>
+  </view>
+</view>

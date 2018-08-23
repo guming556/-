@@ -1,0 +1,16 @@
+<view class='day-sign-container'>
+  <view class='img-box'>
+    <image mode="widthFix" hidden="{{!loadImgBool}}" src='{{daySignData.imageUrl}}' bindload="loadImg"></image>
+  </view>
+
+  <view class='loading' wx:if="{{!loadImgBool}}"><image src="../../images/loading.gif"></image></view>
+
+  <view class='to-home' wx:if="{{toHomeBool}}">
+    <image src='../../images/homeback.png' mode="widthFix"></image>
+    <text bindtap='toHome'>回到主页</text>
+  </view>
+  <view class='share'>
+    <image src='../../images/share.png'></image>
+    <button open-type="share" class='share-btn'>分享</button>
+  </view>
+</view>

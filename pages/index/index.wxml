@@ -1,0 +1,128 @@
+<import src="../../utils/wxParse/wxParse.wxml"/>
+<view class="index-container {{qrcodeBool?'no-scroll':''}}">
+  <view class="page-hd">
+    <image wx:if="{{bannerImg}}" src="{{bannerImg}}"></image>
+    <image wx:if="{{!bannerImg}}" src="../../images/header.png"></image>
+  </view>
+
+  <view class='page-hb'>
+    <swiper class='hb-swiper' interval="{{interval}}" indicator-dots="{{true}}" indicator-color="{{indicatorColor}}" circular 
+    indicator-active-color="{{indicatorActiveColor}}" autoplay previous-margin="{{'180rpx'}}" next-margin="{{'180rpx'}}"     bindchange="swiperChange" current='1'>
+        <swiper-item wx:for="{{swiperImgList}}" wx:key="{{index}}" class="{{swiperIndex == index ? 'active' : ''}}" 
+        data-index="{{index}}" bindtap="toCategory">
+          <view class="slide-image {{swiperIndex==index?'img-active':''}}">
+            <image src="{{item.imageUrl}}"/>
+            <text class="{{swiperIndex==index ? 'text-active' : ''}}">{{item.name}}</text>
+          </view>
+        </swiper-item>
+    </swiper>
+  </view>
+
+  <view class='page-apply'>
+    <view class='page-apply-left'>
+      <image src='../../images/logo.png'></image>
+    </view>
+    <view class='page-apply-center'>
+      <text class='apply-h1'>Kun&iKun粉丝群</text>
+      <text class='apply-h3'>坤宝: 坤坤最新美照又来啦~</text>
+    </view>
+    <view class='page-apply-right' bindtap='showQrcode'>
+      <image src='../../images/apply-btn.png'></image>
+    </view>
+  </view>
+
+  <view class='info-flow' wx:if="{{infoList.length!=0||weeklyTop}}">
+    <view class='flow-item' wx:if="{{weeklyTop}}">
+      <view class='tap-box' data-id='{{weeklyTop.categoryId}}' bindtap='toWeeklyDetail'>
+        <view class='item-tit'>
+          <view class='icon'><image src="{{weeklyTop.weeklyCategoryList[0].imageUrl}}"></image></view>
+          <view class='source' style="color:{{weeklyTop.weeklyCategoryList[0].color}}">来自KUN周刊</view>
+        </view>
+        <view class='item-text'>{{weeklyTop.name}}</view>
+        <view class='cover-img'><image mode="widthfix" src='{{weeklyTop.weeklyCategoryList[0].coverImageUrl}}'></image></view>
+      </view>
+    </view>
+
+    <view class='flow-item' wx:for="{{infoList}}"wx:for-index="index"  wx:key="{{item.id}}">
+      <view class='tap-box'  data-id='{{item.id}}' bindtap='toInfoDetail'>
+        <view class='item-tit'>
+          <view class='icon'><image src="{{item.imageUrl}}"></image></view>
+          <view class='source' style="color:{{item.color}}" wx:if="{{item.fromPlatform||item.fromUserName}}">
+            来自<text wx:if="{{item.fromPlatform}}">{{item.fromPlatform}}</text>
+            <text wx:if="{{item.fromUserName}}">@{{item.fromUserName}}</text>
+          </view>
+        </view>
+        <view class='item-text'>{{item.title}}</view>
+        <view class='item-content'>
+            <!-- <template is="wxParse" data="{{wxParseData:replyTemArray[index]}}"/> -->
+            {{item.textContent}}
+        </view>
+      </view>
+      <view class='item-media'>
+
+        <swiper class='media-swiper'  wx:if="{{item.imageUrlList.length>1&&item.videoUrlList.length==0}}" indicator-dots="true" indicator-color="#e3e3e3" indicator-active-color="{{item.color}}"
+        previous-margin="{{'20rpx'}}" next-margin="{{'20rpx'}}">
+          <swiper-item class="swiper-item img-item" wx:for="{{item.imageUrlList}}" wx:for-index="idx" wx:key="index">
+            <image mode="aspectFill" src='{{item}}' data-url='{{item}}' data-index='{{index}}' bindtap='imgPreview'></image>
+          </swiper-item>
+        </swiper>
+
+        <view class='img-only' wx:if="{{item.imageUrlList.length==1&&item.videoUrlList.length==0}}">
+          <image mode="aspectFill" data-index='{{index}}' src='{{item.imageUrlList[0]}}' bindtap='imgPreview'></image>
+        </view>
+
+        <view class='video-only' wx:if="{{item.videoUrlList.length!=0}}">
+          <view class='video-cover' hidden="{{item.videoTrue}}">
+            <image  data-idx='{{index}}' data-index="{{0}}" bindtap='palyVideo' src='../../images/video-default.png' class='image1'></image>
+            <image  mode='aspectFill' data-idx='{{index}}' data-index="{{0}}" bindtap='palyVideo' src='{{item.videoUrl}}' class='image2'></image>
+          </view>
+          <video objectFit="contain" wx:if="{{item.videoTrue}}"  custom-cache="{{false}}" 
+          autoplay="{{item.videoTrue}}"  src='{{item.videoUrlList[0]}}' poster='{{item.videoUrl}}' controls>
+          </video>
+        </view>
+
+      </view>
+    </view>
+  </view>
+
+  <view class='cover-box' wx:if="{{qrcodeBool}}" bindtap='showQrcode'>
+    <view class='qrcode-box' catchtap='openQrcode'>
+      <view class='header'>
+        <text>添加好友，让TA带你进Kun&iKun粉丝群</text>
+        <view class='close-btn' catchtap='showQrcode'><image src='../../images/qrcode-close.png'></image></view>
+      </view>
+      <view class='qrcode'>
+        <image src='{{qrcodeImgUrl}}'></image>
+      </view>
+    </view>
+    <view class='save-btn' catchtap='saveQrcodeImgSetting'>
+      <image src='../../images/save-btn.png'></image>
+      <text wx:if="{{!settingButtonBool}}">保存二维码到本地</text>
+      <button wx:if="{{settingButtonBool}}" open-type='openSetting'>保存二维码到本地</button>
+    </view>
+  </view>
+
+
+  <view class='preview-box' wx:if="{{infoLoadBool}}" wx:for="{{2}}" wx:key="{{item}}">
+    <view class='preview-tit'>
+      <view class='icon'></view>
+      <text></text>
+    </view>
+    <view class='preview-con'></view>
+  </view>
+
+  <view class='no-more' wx:if="{{noMoreInfoBool}}">木有更多啦O!0</view>
+
+  <view class='qrcode-save-tip' wx:if="{{qrcodeTipBool}}">
+    <image wx:if="{{qrcodeSaveBool}}" src='../../images/save-success.png'></image>
+    <image wx:if="{{!qrcodeSaveBool}}" src='../../images/save-fail.png'></image>
+  </view>
+
+
+  <view class='share'>
+    <button open-type="share" class='share-btn'>分享</button>
+    <image src='../../images/share.png'></image>
+  </view>
+
+</view>
+

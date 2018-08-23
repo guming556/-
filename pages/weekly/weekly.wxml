@@ -1,0 +1,25 @@
+<view class='weekly-container'>
+  <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+    <view wx:for="{{weeklyList}}" wx:key="index" class="tab-item {{currentTab==index?'active':''}}" 
+    data-current="{{index}}" bindtap="swichNav">{{item.name}}</view>
+  </scroll-view>
+  <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab">
+    <swiper-item wx:for="{{weeklyList}}" wx:key="index">
+      <scroll-view scroll-y="true" class="img-box">
+        <image mode="widthFix" hidden="{{!imgLoadBool}}" src='{{weeklyData.imageUrl}}' bindload="loadImg"></image>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+  <view class='loading' wx:if="{{!imgLoadBool}}"><image src="../../images/loading.gif"></image></view>
+
+  <view class='to-home' wx:if="{{toHomeBool}}">
+    <image src='../../images/homeback.png'></image>
+    <text bindtap='toHome'>回到主页</text>
+  </view>
+  <view class='share'>
+    <image src='../../images/share.png'></image>
+    <button open-type="share" class='share-btn'>分享</button>
+  </view>
+
+</view>
